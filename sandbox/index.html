@@ -36,17 +36,14 @@
 </head>
 <body>
   <div class="guide" style="top:20%"></div>
-  <div class="box hide" style="top:1600px" data-inset-offset="10%"></div>
+  <div class="box hide" style="top:1600px"></div>
   <div class="guide" style="bottom:10%"></div>
   
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"> </script>
   <script src="../jquery.appearl.js"></script>
   <script>
       $('.box').appearl({
-        offset: {
-          top: '20%',
-          bottom: '10%'
-        }
+        offset: '40px'
       }).on( 'appear disappear', function(event, data) {
         console.log(event.type, data.from);
         $(this).toggleClass('hide');

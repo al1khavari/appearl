@@ -48,20 +48,20 @@
           } else {
             this._offsetTop = this._offsetBottom = this.settings.offset;
           }
-
+          
           this._appeared = false;
           this._lastScroll = 0;
-
+          
           $window.on( 'scroll resize', this.update.bind( this ) );
-      },
-
-      update: function( event ) {
-        var rect = this.element.getBoundingClientRect(),
-            offsetTop = this._parseOffset( this._offsetTop ),
-            offsetBottom = this._parseOffset( this._offsetBottom ),
-            insetOffset = this._parseOffset( this.settings.insetOffset, true ),
-            areaTop = offsetTop,
-            areaBottom = window.innerHeight - offsetBottom;
+        },
+        
+        update: function( event ) {
+          var rect = this.element.getBoundingClientRect(),
+          offsetTop = this._parseOffset( this._offsetTop ),
+          offsetBottom = this._parseOffset( this._offsetBottom ),
+          insetOffset = this._parseOffset( this.settings.insetOffset, true ),
+          areaTop = offsetTop,
+          areaBottom = window.innerHeight - offsetBottom;
 
         if ( rect.top + insetOffset >= areaTop && rect.bottom - insetOffset <= areaBottom ) {
           !this._appeared && this.$element.trigger( 'appear', [{ from: ( this._lastScroll <= $window.scrollTop() ? 'bottom' : 'top' ) }] );
@@ -75,7 +75,7 @@
       },
 
       _parseOffset( value, inset ) {
-        var percentage = typeof value === 'string' && value.indexOf( '%' );
+        var percentage = typeof value === 'string' && value.indexOf( '%' ) !== -1;
         value = parseInt( value );
         
         return !percentage ? value : ( inset ? this.element.offsetHeight : window.innerHeight ) * value / 100;
