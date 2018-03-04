@@ -29,3 +29,9 @@ Both events pass data containing `from` value to specify direction of appearing 
       console.log(event.type, data.from);
     });
 ```
+
+## Data attributes
+You can pass options by data attributes too
+
+`data-offset` - The offset value for both top and bottom sides.
+`data-inset-offset` - The inset offset value
