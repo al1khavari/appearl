@@ -12,13 +12,30 @@
         offset: 0,
         insetOffset: '50%'
       },
-      $window = $(window);
+      attributesMap = {
+        'offset': 'offset',
+        'inset-offset': 'insetOffset'
+    },
+    $window = $(window);
 
   // The actual plugin constructor 
   function Plugin ( element, options ) {
       this.element   = element;
       this.$element  = $(element);
       this.settings  = $.extend( {}, defaults, options );
+
+      // read attributes
+      for ( var key in attributesMap ) {
+        var value = attributesMap[ key ],
+            dataAttr = this.$element.data( key );
+
+        if ( dataAttr === undefined ) {
+            continue;
+        }
+
+        this.settings[ value ] = dataAttr;
+      }
+
       this.init();
   }
 
