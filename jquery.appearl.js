@@ -72,7 +72,7 @@
         this._lastScroll = $window.scrollTop();
       },
 
-      _parseOffset( value, inset ) {
+      _parseOffset: function( value, inset ) {
         var percentage = typeof value === 'string' && value.indexOf( '%' ) !== -1;
         value = parseInt( value );
         
