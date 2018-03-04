@@ -57,11 +57,9 @@
         
         update: function( event ) {
           var rect = this.element.getBoundingClientRect(),
-          offsetTop = this._parseOffset( this._offsetTop ),
-          offsetBottom = this._parseOffset( this._offsetBottom ),
-          insetOffset = this._parseOffset( this.settings.insetOffset, true ),
-          areaTop = offsetTop,
-          areaBottom = window.innerHeight - offsetBottom;
+          areaTop = this._parseOffset( this._offsetTop ),
+          areaBottom = window.innerHeight - this._parseOffset( this._offsetBottom ),
+          insetOffset = this._parseOffset( this.settings.insetOffset, true );
 
         if ( rect.top + insetOffset >= areaTop && rect.bottom - insetOffset <= areaBottom ) {
           !this._appeared && this.$element.trigger( 'appear', [{ from: ( this._lastScroll <= $window.scrollTop() ? 'bottom' : 'top' ) }] );
