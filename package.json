@@ -1,0 +1,11 @@
+{
+  "name": "appearl",
+  "version": "1.0.0",
+  "description": "A super simple jQuery plugin checks if element is visible on scroll.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Averta",
+  "license": "MIT"
+}

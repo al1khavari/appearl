@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Appearl</title>
+  
+  <style>
+    .box {
+       position: absolute;
+       left: 45%;
+       width: 200px;
+       height: 200px;
+       background: #FFDD00;
+    }
+
+    body {
+      height: 10000px;
+      position: relative;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="box" style="top:1600px"></div>
+  <!-- <div class="box" style="top:4600px"></div> -->
+
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <script src="../jquery.appearl.js"></script>
+  <script>
+      $('.box').appearl({
+        offset: {
+          top: '20%',
+          bottom: '10%'
+        }
+      }).on( 'appear disappear', function(event, data) {
+        console.log(event.type, data.from);
+      } )
+
+  </script>
+</body>
+</html>

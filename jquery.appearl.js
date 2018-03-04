@@ -1,0 +1,78 @@
+/**
+ * A super simple jQuery plugin checks if element is visible on scroll.
+ *
+ *  @author Averta
+ */
+;( function( $, window, document, undefined ) {
+
+  "use strict";
+
+  var pluginName = "appearl",
+      defaults = {
+        offset: 0,
+        insetOffset: '50%'
+      },
+      $window = $(window);
+
+  // The actual plugin constructor 
+  function Plugin ( element, options ) {
+      this.element   = element;
+      this.$element  = $(element);
+      this.settings  = $.extend( {}, defaults, options );
+      this.init();
+  }
+
+  // Avoid Plugin.prototype conflicts
+  $.extend( Plugin.prototype, {
+      init: function() {
+          if ( typeof this.settings.offset === 'object' ) {
+            this._offsetTop = this.settings.offset.top;
+            this._offsetBottom = this.settings.offset.bottom;
+          } else {
+            this._offsetTop = this._offsetBottom = this.settings.offset;
+          }
+
+          this._appeared = false;
+          this._lastScroll = 0;
+
+          $window.on( 'scroll resize', this.update.bind( this ) );
+      },
+
+      update: function( event ) {
+        var rect = this.element.getBoundingClientRect(),
+            offsetTop = this._parseOffset( this._offsetTop ),
+            offsetBottom = this._parseOffset( this._offsetBottom ),
+            insetOffset = this._parseOffset( this.settings.insetOffset, true ),
+            areaTop = offsetTop,
+            areaBottom = window.innerHeight - offsetBottom;
+
+        if ( rect.top + insetOffset >= areaTop && rect.bottom - insetOffset <= areaBottom ) {
+          !this._appeared && this.$element.trigger( 'appear', [{ from: ( this._lastScroll <= $window.scrollTop() ? 'bottom' : 'top' ) }] );
+          this._appeared = true;
+        } else if ( this._appeared ) {
+          this.$element.trigger( 'disappear', [{ from: ( rect.top < areaTop ? 'top' : 'bottom' ) }] );
+          this._appeared = false;
+        }
+
+        this._lastScroll = $window.scrollTop();
+      },
+
+      _parseOffset( value, inset ) {
+        var percentage = typeof value === 'string' && value.indexOf( '%' );
+        value = parseInt( value );
+        
+        return !percentage ? value : ( inset ? this.element.offsetHeight : window.innerHeight ) * value / 100;
+      }
+        
+  } );
+
+  $.fn[ pluginName ] = function( options ) {
+      return this.each( function() {
+          if ( !$.data( this, "plugin_" + pluginName ) ) {
+              $.data( this, "plugin_" +
+                  pluginName, new Plugin( this, options ) );
+          }
+      } );
+  };
+
+} )( jQuery, window, document );
