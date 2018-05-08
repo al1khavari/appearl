@@ -42,26 +42,27 @@
   // Avoid Plugin.prototype conflicts
   $.extend( Plugin.prototype, {
       init: function() {
-          if ( typeof this.settings.offset === 'object' ) {
-            this._offsetTop = this.settings.offset.top;
-            this._offsetBottom = this.settings.offset.bottom;
-          } else {
-            this._offsetTop = this._offsetBottom = this.settings.offset;
-          }
-          
-          this._appeared = false;
-          this._lastScroll = 0;
-          
-          $window.on( 'scroll resize', this.update.bind( this ) );
-        },
+        if ( typeof this.settings.offset === 'object' ) {
+          this._offsetTop = this.settings.offset.top;
+          this._offsetBottom = this.settings.offset.bottom;
+        } else {
+          this._offsetTop = this._offsetBottom = this.settings.offset;
+        }
         
-        update: function( event ) {
-          var rect = this.element.getBoundingClientRect(),
-          areaTop = this._parseOffset( this._offsetTop ),
-          areaBottom = window.innerHeight - this._parseOffset( this._offsetBottom ),
-          insetOffset = this._parseOffset( this.settings.insetOffset, true );
+        this._appeared = false;
+        this._lastScroll = 0;
+        
+        $window.on( 'scroll resize', this.update.bind( this ) );
+        setTimeout( this.update.bind(this) );
+      },
+        
+      update: function( event ) {
+        var rect = this.element.getBoundingClientRect(),
+        areaTop = this._parseOffset( this._offsetTop ),
+        areaBottom = window.innerHeight - this._parseOffset( this._offsetBottom ),
+        insetOffset = this._parseOffset( this.settings.insetOffset, true );
 
-        if ( rect.top + insetOffset >= areaTop && rect.bottom - insetOffset <= areaBottom ) {
+        if ( rect.top + insetOffset <= areaBottom && rect.bottom - insetOffset >= areaTop ) {
           !this._appeared && this.$element.trigger( 'appear', [{ from: ( this._lastScroll <= $window.scrollTop() ? 'bottom' : 'top' ) }] );
           this._appeared = true;
         } else if ( this._appeared ) {

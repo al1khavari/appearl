@@ -11,7 +11,7 @@
        position: absolute;
        left: 45%;
        width: 200px;
-       height: 200px;
+       height: 800px;
        background: #FFDD00;
     }
 
@@ -35,15 +35,15 @@
 
 </head>
 <body>
-  <div class="guide" style="top:20%"></div>
+  <div class="guide" style="top:40px"></div>
   <div class="box hide" style="top:1600px"></div>
-  <div class="guide" style="bottom:10%"></div>
+  <div class="guide" style="bottom:40px"></div>
   
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"> </script>
   <script src="../jquery.appearl.js"></script>
   <script>
       $('.box').appearl({
-        offset: '40px'
+        offset: '40px',
       }).on( 'appear disappear', function(event, data) {
         console.log(event.type, data.from);
         $(this).toggleClass('hide');
