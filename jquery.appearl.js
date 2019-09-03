@@ -49,9 +49,14 @@
           this._offsetTop = this._offsetBottom = this.settings.offset;
         }
         
+        // To check if the element is on viewport and set the offset 0 for them
+        if ( this._isOnViewPort( this.$element) ) {
+            this._offsetTop = this._offsetBottom = 0
+        }
+        
         this._appeared = false;
         this._lastScroll = 0;
-        
+
         $window.on( 'scroll resize', this.update.bind( this ) );
         setTimeout( this.update.bind(this) );
       },
@@ -61,7 +66,7 @@
         areaTop = this._parseOffset( this._offsetTop ),
         areaBottom = window.innerHeight - this._parseOffset( this._offsetBottom ),
         insetOffset = this._parseOffset( this.settings.insetOffset, true );
-
+        
         if ( rect.top + insetOffset <= areaBottom && rect.bottom - insetOffset >= areaTop ) {
           !this._appeared && this.$element.trigger( 'appear', [{ from: ( this._lastScroll <= $window.scrollTop() ? 'bottom' : 'top' ) }] );
           this._appeared = true;
@@ -78,8 +83,12 @@
         value = parseInt( value );
         
         return !percentage ? value : ( inset ? this.element.offsetHeight : window.innerHeight ) * value / 100;
-      }
-        
+      },
+
+      _isOnViewPort: function( element ) {
+        var bottomOffset = this.element.getBoundingClientRect().bottom;
+        return bottomOffset <  window.innerHeight
+      },
   } );
 
   $.fn[ pluginName ] = function( options ) {
